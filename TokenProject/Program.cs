@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TokenProject.Helper;
+using TokenProject.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +27,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
      };
  });
 //Jwt configuration ends here
+builder.Services.Configure<Jwt>(builder.Configuration.GetSection("jwt"));
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<TokenProject.Model.DbContext>();
+builder.Services.AddDbContext<TokenProject.Model.DbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
+) ;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

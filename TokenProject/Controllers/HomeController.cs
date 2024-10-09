@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TokenProject.Helper;
 
 namespace TokenProject.Controllers
 {
@@ -14,7 +15,7 @@ namespace TokenProject.Controllers
         [Authorize]
         public IActionResult SayHello()
         {
-            return Ok("Hello My Client");
+            return Ok("Hello My Client"+ " " + Jwt.Key);
         }
 
 
