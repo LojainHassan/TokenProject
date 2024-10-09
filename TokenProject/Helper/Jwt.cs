@@ -2,9 +2,9 @@
 {
     public  class Jwt
     {
-        public static string Key { get; set; }
-        public static string issuer { get; set; }
-        public static string audience { get; set; }
-        public static string durationd { get; set; }
+        public  string key { get; set; }
+        public  string issuer { get; set; }
+        public  string audience { get; set; }
+        public  double duration { get; set; }
     }
 }

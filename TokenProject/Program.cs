@@ -5,12 +5,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TokenProject.Helper;
 using TokenProject.Model;
+using TokenProject.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Jwt configuration starts here
 var jwtIssuer = builder.Configuration.GetSection("jwt:issuer").Get<string>();
 var jwtKey = builder.Configuration.GetSection("jwt:key").Get<string>();
+var jwtAudience = builder.Configuration.GetSection("jwt:audience").Get<string>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
  .AddJwtBearer(options =>
@@ -22,7 +24,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
          ValidateLifetime = true,
          ValidateIssuerSigningKey = true,
          ValidIssuer = jwtIssuer,
-         ValidAudience = jwtIssuer,
+         ValidAudience = jwtAudience,
          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
      };
  });
@@ -33,6 +35,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFramework
 builder.Services.AddDbContext<TokenProject.Model.DbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 ) ;
+
+builder.Services.AddScoped<IAuthServive,AuthService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

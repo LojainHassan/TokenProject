@@ -15,7 +15,7 @@ namespace TokenProject.Controllers
         [Authorize]
         public IActionResult SayHello()
         {
-            return Ok("Hello My Client"+ " " + Jwt.Key);
+            return Ok("Hello My Client"+ " ");
         }
 
 
